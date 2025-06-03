@@ -3,7 +3,7 @@ try {
     // ✅ Use these correct values for your live server
     $host = 'localhost'; // usually stays localhost
     $dbname = 'e4g6wad_anxiety_db'; // your real database name
-    $user = 'anxiety_user'; // your real database user
+    $user = 'e4g6wad_anxiety_user'; // your real database user
     $pass = 'H#K7bkh2*gq='; // your real database password
 
     // ✅ Create PDO connection using the correct variables
