@@ -4,13 +4,15 @@
 <?php 
 
 
-if(isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
 
-    if(empty($_POST['first_name']) OR empty($_POST['last_name']) OR empty($_POST['date'])
-    OR empty($_POST['time']) OR empty($_POST['phone'])  OR empty($_POST['message'])) {
-      echo "<script>alert('one or more inputs are empty');</script>";
-    } else { 
-
+    if (
+        empty($_POST['first_name']) || empty($_POST['last_name']) ||
+        empty($_POST['date']) || empty($_POST['time']) ||
+        empty($_POST['phone']) || empty($_POST['message'])
+    ) {
+        echo "<script>alert('One or more inputs are empty');</script>";
+    } else {
 
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
@@ -20,12 +22,13 @@ if(isset($_POST['submit'])) {
         $message = $_POST['message'];
         $user_id = $_SESSION['user_id'];
 
-        if($date > date("n/j/Y")) {
+        // ✅ Correct date comparison using DateTime
+        $inputDate = DateTime::createFromFormat('n/j/Y', $date);
+        $today = new DateTime();
 
-
-            $insert = $conn->prepare("INSERT INTO bookings (first_name, last_name, date,
-            time, phone, message, user_id) VALUES (:first_name, :last_name, :date, :time,
-            :phone, :message, :user_id)");
+        if ($inputDate && $inputDate > $today) {
+            $insert = $conn->prepare("INSERT INTO bookings (first_name, last_name, date, time, phone, message, user_id) 
+                VALUES (:first_name, :last_name, :date, :time, :phone, :message, :user_id)");
 
             $insert->execute([
                 ":first_name" => $first_name,
@@ -37,14 +40,11 @@ if(isset($_POST['submit'])) {
                 ":user_id" => $user_id
             ]);
 
-            header("location: ".APPURL."");
-
-
+            header("Location: " . APPURL);
+            exit();
         } else {
-
-            header("location: ".APPURL."");
+            echo "<script>alert('The booking date must be in the future.');</script>";
         }
-
-
     }
 }
+?>
