@@ -67,8 +67,29 @@
 
 
 ?>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const minusBtn = document.querySelector('.quantity-left-minus');
+    const plusBtn = document.querySelector('.quantity-right-plus');
+    const quantityInput = document.getElementById('quantity');
 
-    <section class="home-slider owl-carousel">
+    minusBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      let quantity = parseInt(quantityInput.value);
+      if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+      }
+    });
+
+    plusBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      let quantity = parseInt(quantityInput.value);
+      quantityInput.value = quantity + 1;
+    });
+  });
+</script>
+
+    <!--<section class="home-slider owl-carousel">
 
       <div class="slider-item" style="background-image: url(<?php echo APPURL; ?>/images/bg_3.jpg);" data-stellar-background-ratio="0.5">
       	<div class="overlay"></div>
@@ -83,7 +104,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>-->
 
     <section class="ftco-section">
     	<div class="container">
