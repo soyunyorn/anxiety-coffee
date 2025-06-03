@@ -11,6 +11,6 @@ jobs:
     - name: 📂 Sync files
       uses: Penguibird/FTP-Deploy-Action@4.2.0
       with:
-        server: ftp.yornsoyunn.com
-        username: soyunn@yornsoyunn.com
-        password: =S;HZtKt=@-Y
+        server: ftp.maisreyneang.com
+        username:  sreyneang@maisreyneang.com
+        password: 7?b(CPg8F7Qe
