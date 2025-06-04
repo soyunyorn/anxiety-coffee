@@ -1,5 +1,4 @@
 <?php
-session_start();
 function loadEnv($filePath) {
     if (!file_exists($filePath)) {
         throw new Exception(".env file not found");
@@ -34,8 +33,8 @@ try {
         define("DB_PASS", $_ENV['DB_PASS_PROD']);
     }
     
-    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // if ($pdo == true) {
     //     echo "Connected successfully";
