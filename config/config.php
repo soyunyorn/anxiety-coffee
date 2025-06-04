@@ -1,19 +1,50 @@
 <?php
-try {
-    // ✅ Use these correct values for your live server
-    $host = 'localhost'; // usually stays localhost
-    $dbname = 'e4g6wad_anxiety_db'; // your real database name
-    $user = 'e4g6wad_anxiety_user'; // your real database user
-    $pass = 'H#K7bkh2*gq='; // your real database password
+session_start();
 
-    // ✅ Create PDO connection using the correct variables
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+function loadEnv($filePath) {
+    if (!file_exists($filePath)) {
+        throw new Exception(".env file not found");
+    }
+    
+    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+        
+        list($key, $value) = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value);
 
-    // echo "Connected successfully"; // for debugging
-} catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+        $_ENV[$key] = $value;
+    }
 }
-?>
 
-   
+try {
+    loadEnv(__DIR__ . '/.env');
+    
+    if ($_SERVER['HTTP_HOST'] === 'localhost') {
+        define("DB_HOST", $_ENV['DB_HOST_LOCAL']);
+        define("DB_NAME", $_ENV['DB_NAME_LOCAL']);
+        define("DB_USER", $_ENV['DB_USER_LOCAL']);
+        define("DB_PASS", $_ENV['DB_PASS_LOCAL']);
+        define("APPURL", "http://localhost/anxiety-coffee"); // ✅ local path
+    } else {
+        define("DB_HOST", $_ENV['DB_HOST_PROD']);
+        define("DB_NAME", $_ENV['DB_NAME_PROD']);
+        define("DB_USER", $_ENV['DB_USER_PROD']);
+        define("DB_PASS", $_ENV['DB_PASS_PROD']);
+        define("APPURL", "https://maisreyneang.com/sreyneang/anxiety-coffee/"); // ✅ change to your real domain
+    }
+
+    $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Remove this line below when you're done testing
+    // echo "Connected successfully";
+
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
