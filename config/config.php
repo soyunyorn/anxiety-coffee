@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 function loadEnv($filePath) {
     if (!file_exists($filePath)) {
         throw new Exception(".env file not found");
@@ -28,23 +27,25 @@ try {
         define("DB_NAME", $_ENV['DB_NAME_LOCAL']);
         define("DB_USER", $_ENV['DB_USER_LOCAL']);
         define("DB_PASS", $_ENV['DB_PASS_LOCAL']);
-        define("APPURL", "http://localhost/anxiety-coffee"); // ✅ local path
     } else {
         define("DB_HOST", $_ENV['DB_HOST_PROD']);
         define("DB_NAME", $_ENV['DB_NAME_PROD']);
         define("DB_USER", $_ENV['DB_USER_PROD']);
         define("DB_PASS", $_ENV['DB_PASS_PROD']);
-        define("APPURL", "https://maisreyneang.com/sreyneang/anxiety-coffee/"); // ✅ change to your real domain
     }
-
+    
     $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Remove this line below when you're done testing
-    // echo "Connected successfully";
-
+    
+    if ($pdo == true) {
+        echo "Connected successfully";
+    } else {
+        echo "Connection failed: ";
+    }
+    
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }
+
