@@ -1,9 +1,10 @@
 <?php 
 
     session_start();
-    define("APPURL", "http://localhost/anxiety-coffee");
-    define("IMAGEPRODUCTS", "http://localhost/anxiety-coffee/admin-panel/products-admins/images");
+    // define("APPURL", "http://localhost/anxiety-coffee");
+    // define("IMAGEPRODUCTS", "http://localhost/anxiety-coffee/admin-panel/products-admins/images");
 
+    require "domain.php";
 
 ?>
 <!DOCTYPE html>
