@@ -13,7 +13,6 @@
 
 	$allReviews = $reviews->fetchAll(PDO::FETCH_OBJ);
 
-
 ?>
 
     <section class="home-slider owl-carousel">
