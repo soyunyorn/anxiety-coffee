@@ -4,7 +4,7 @@ if (strpos($Domain, "localhost") !== false) {
     define("APPURL", "/anxiety-coffee/");
     define("IMAGEPRODUCTS", "/anxiety-coffee/admin-panel/products-admins/images");
 } else {
-    define("APPURL", "https://maisreyneang.com/sreyneang/anxiety-coffee/");
+    define("APPURL", "https://maisreyneang.com/sreyneang/anxiety-coffee");
     define("IMAGEPRODUCTS", "https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/products-admins/images");
 
 
