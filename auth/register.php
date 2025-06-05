@@ -6,6 +6,8 @@ require "../vendor/autoload.php"; // PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+session_start();
+
 if (isset($_SESSION['username'])) {
     header("location: " . APPURL . "");
     exit;
@@ -38,10 +40,10 @@ if (isset($_POST['submit'])) {
 
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';         // e.g., Gmail SMTP
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'yornsoyun@gmail.com';   // your Gmail
-            $mail->Password = 'gpvkevhhqksamxni';      // App password, not your real Gmail password
+            $mail->Username = 'yornsoyun@gmail.com';
+            $mail->Password = 'gpvkevhhqksamxni';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
@@ -61,6 +63,9 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+
+// Now include header and HTML
+require "../includes/header.php";
 ?>
 
 
