@@ -54,10 +54,7 @@ if (isset($_POST['submit'])) {
 
             $mail->send();
 
-
-            
-
-            header("Location: verify.php?email=" . urlencode($email));
+            header("Location: " . APPURL . "/auth/verify.php?email=" . urlencode($email));
             exit;
         } catch (Exception $e) {
             echo "<script>alert('Email could not be sent. Error: {$mail->ErrorInfo}');</script>";
