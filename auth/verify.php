@@ -1,48 +1,35 @@
 <?php
-require "../includes/header.php";
+session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require "../config/config.php";
 
-if (isset($_SESSION['username'])) {
-    header("Location: " . APPURL);
-    exit;
+if (!isset($_GET['email'])) {
+    die('Email missing');
 }
 
-if (isset($_GET['email'])) {
-    $email = $_GET['email'];
-} else {
-    // Redirect back if no email
-    header("Location: register.php");
-    exit;
-}
+$email = $_GET['email'];
 
 if (isset($_POST['submit'])) {
     $input_code = $_POST['verification_code'];
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt = $conn->prepare("SELECT verification_code FROM users WHERE email = :email");
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        if ($user['verification_code'] == $input_code) {
-            // Update verification status
-            $update = $conn->prepare("UPDATE users SET is_verified = 1 WHERE email = :email");
-            $update->execute([':email' => $email]);
-
-            // Log the user in automatically
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['user_id'] = $user['id'];
-
-            header("Location: " . APPURL);
-            exit;
-        } else {
-            echo "<script>alert('Verification code is incorrect. Please try again.');</script>";
-        }
+    if ($user && $user['verification_code'] == $input_code) {
+        $update = $conn->prepare("UPDATE users SET is_verified = 1, verification_code = NULL WHERE email = :email");
+        $update->execute([':email' => $email]);
+        echo "Verification successful! You can now log in.";
+        exit;
     } else {
-        echo "<script>alert('User not found.');</script>";
+        echo "Incorrect code or user not found.";
     }
 }
 ?>
+
+
+
 
 <section class="ftco-section">
   <div class="container">
