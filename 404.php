@@ -8,7 +8,7 @@
             <div class="row slider-text justify-content-center align-items-center">
 
             <div class="col-md-7 col-sm-12 text-center ftco-animate">
-                <h1 class="mb-3 mt-5 bread">404 Page Not Found</h1>
+                <h1 class="mb-3 mt-5 bread">404 Page Not Found!!! </h1>
                 <a href="<?php echo APPURL; ?>" class="btn btn-primary py-3 px-4">Go Home</a>
             </div>
                 
