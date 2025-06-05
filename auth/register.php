@@ -1,5 +1,4 @@
 <?php
-require "../includes/header.php";
 require "../config/config.php";
 require "../vendor/autoload.php"; // PHPMailer
 
