@@ -10,15 +10,15 @@ function sendInvoiceEmail($toEmail, $toName, $subject, $bodyHtml) {
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host = 'smtp.example.com';    // Your SMTP server
+        $mail->Host = 'smtp.gmail.com';    // Your SMTP server
         $mail->SMTPAuth = true;
-        $mail->Username = 'your_email@example.com'; // Your SMTP username
-        $mail->Password = 'your_password';          // Your SMTP password
+        $mail->Username = 'yornsoyun@gmail.com'; // Your SMTP username
+        $mail->Password = 'gpvkevhhqksamxni';          // Your SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Or PHPMailer::ENCRYPTION_SMTPS
         $mail->Port = 587; // SMTP port (often 587 or 465)
 
         // Recipients
-        $mail->setFrom('your_email@example.com', 'Your Company Name');
+        $mail->setFrom('yornsoyun@gmail.com', 'Anxiety Coffee');
         $mail->addAddress($toEmail, $toName);
 
         // Content
