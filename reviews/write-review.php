@@ -23,9 +23,7 @@
 			$review = $_POST['review'];
             $username = $_SESSION['username'];
 			
-
-			
-
+			// Database connection
 			$writeReview = $conn->prepare("INSERT INTO reviews (review, username) VALUES (:review, :username)");
 
 			$writeReview->execute([
@@ -38,7 +36,6 @@
 
 		}
 	}
-
 
 ?>
     <!--<section class="home-slider owl-carousel">
