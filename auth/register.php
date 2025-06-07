@@ -55,8 +55,6 @@ if (isset($_POST['submit'])) {
             $mail->send();
 
 
-            
-
             header("Location: verify.php?email=" . urlencode($email));
             exit;
         } catch (Exception $e) {
