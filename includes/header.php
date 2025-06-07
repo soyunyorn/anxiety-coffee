@@ -75,7 +75,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" href="<?php echo APPURL;?>/users/bookings.php">Your Bookings</a></li>
-          <li><a class="dropdown-item" href="<?php echo APPURL;?>/users/orders.php">Your Orders</a></li>
+          <li><a class="dropdown-item" href="<?php echo APPURL;?>/users/Orders.php">Your Orders</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a></li>
         </ul>
