@@ -53,10 +53,7 @@ if (isset($_POST['submit'])) {
             $mail->Body    = "Hello $username,<br><br>Your verification code is: <b>$verification_code</b>";
 
             $mail->send();
-
-
             
-
             header("Location: verify.php?email=" . urlencode($email));
             exit;
         } catch (Exception $e) {
