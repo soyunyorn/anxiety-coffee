@@ -1,11 +1,10 @@
 <?php
+require "../includes/header.php";
 require "../config/config.php";
 require "../vendor/autoload.php"; // PHPMailer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-session_start();
 
 if (isset($_SESSION['username'])) {
     header("location: " . APPURL . "");
@@ -39,10 +38,10 @@ if (isset($_POST['submit'])) {
 
         try {
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'smtp.gmail.com';         // e.g., Gmail SMTP
             $mail->SMTPAuth = true;
-            $mail->Username = 'yornsoyun@gmail.com';
-            $mail->Password = 'gpvkevhhqksamxni';
+            $mail->Username = 'yornsoyun@gmail.com';   // your Gmail
+            $mail->Password = 'gpvkevhhqksamxni';      // App password, not your real Gmail password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
@@ -55,16 +54,16 @@ if (isset($_POST['submit'])) {
 
             $mail->send();
 
-            header("Location: " . APPURL . "/auth/verify.php?email=" . urlencode($email));
+
+            
+
+            header("Location: verify.php?email=" . urlencode($email));
             exit;
         } catch (Exception $e) {
             echo "<script>alert('Email could not be sent. Error: {$mail->ErrorInfo}');</script>";
         }
     }
 }
-
-// Now include header and HTML
-require "../includes/header.php";
 ?>
 
 
