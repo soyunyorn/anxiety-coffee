@@ -54,12 +54,13 @@
             </div>
 
             <div class="col-md-12">
-              <div class="form-group" style="position: relative;">
+              <div class="form-group">
                 <label for="Password">Password</label>
                 <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
-                <span id="togglePassword" style="position: absolute; top: 38px; right: 15px; cursor: pointer;">
-                  👁️
-                </span>
+                <div class="mt-2">
+                  <input type="checkbox" id="showPassword">
+                  <label for="showPassword" style="color: #fff;">Show Password</label>
+                </div>
               </div>
             </div>
 
@@ -79,17 +80,11 @@
   </div>
 </section>
 
-<!-- Show/hide password with icon -->
+<!-- Show/hide password script -->
 <script>
-  const toggle = document.getElementById('togglePassword');
-  const password = document.getElementById('password');
-
-  toggle.addEventListener('click', function () {
-    const type = password.type === 'password' ? 'text' : 'password';
-    password.type = type;
-
-    // Toggle icon (optional: swap emoji)
-    toggle.textContent = type === 'password' ? '👁️' : '🙈';
+  document.getElementById('showPassword').addEventListener('change', function () {
+    const pw = document.getElementById('password');
+    pw.type = this.checked ? 'text' : 'password';
   });
 </script>
 
