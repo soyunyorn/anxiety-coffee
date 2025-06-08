@@ -3,7 +3,7 @@
 
 <?php 
   if(isset($_SESSION['username'])) {
-    header("location: ".APPURL."");
+    header("location: https://maisreyneang.com/sreyneang/anxiety-coffee/ ");
     exit;
   }
   
