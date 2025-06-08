@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-ob_end_flush(); // Flush output buffer, now output can start
+ob_end_flush(); // End output buffering
 ?>
 
 <?php require "../includes/header.php"; ?>
@@ -94,7 +94,10 @@ ob_end_flush(); // Flush output buffer, now output can start
             <div class="col-md-12">
               <div class="form-group">
                 <label for="Password">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <div class="mt-2">
+                  <input type="checkbox" id="showPassword"> <label for="showPassword">Show Password</label>
+                </div>
               </div>
             </div>
             <div class="col-md-12">
@@ -108,5 +111,12 @@ ob_end_flush(); // Flush output buffer, now output can start
     </div>
   </div>
 </section>
+
+<script>
+  document.getElementById('showPassword').addEventListener('change', function() {
+    const passwordInput = document.getElementById('password');
+    passwordInput.type = this.checked ? 'text' : 'password';
+  });
+</script>
 
 <?php require "../includes/footer.php"; ?>
