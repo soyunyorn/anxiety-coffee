@@ -10,7 +10,6 @@ if (!isset($_GET['email'])) {
 $email = $_GET['email'];
 $error = "";
 
-// To keep user input after submit
 $password = "";
 $confirm_password = "";
 
@@ -24,12 +23,9 @@ if (isset($_POST['submit'])) {
         $error = "Passwords do not match";
     } else {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-        // Update password and clear verification code & mark as verified
         $update = $conn->prepare("UPDATE users SET password = :password, verification_code = NULL, is_verified = 1 WHERE email = :email");
         $update->execute([':password' => $hashed, ':email' => $email]);
 
-        // Auto-login the user after password reset
         $user_check = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $user_check->execute([':email' => $email]);
         $user = $user_check->fetch(PDO::FETCH_ASSOC);
@@ -60,17 +56,23 @@ if (isset($_POST['submit'])) {
             <div class="col-md-12">
               <div class="form-group">
                 <label for="password">New Password</label>
-                <input type="password" name="password" class="form-control" placeholder="New password" required
-                       value="<?= htmlspecialchars($password) ?>">
+                <input type="password" id="password" name="password" class="form-control" placeholder="New password" required>
               </div>
             </div>
+            <div class="col-md-12 mb-3">
+              <input type="checkbox" onclick="togglePassword('password')"> Show Password
+            </div>
+
             <div class="col-md-12">
               <div class="form-group">
                 <label for="confirm_password">Confirm New Password</label>
-                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required
-                       value="<?= htmlspecialchars($confirm_password) ?>">
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
               </div>
             </div>
+            <div class="col-md-12 mb-3">
+              <input type="checkbox" onclick="togglePassword('confirm_password')"> Show Confirm Password
+            </div>
+
             <div class="col-md-12">
               <div class="form-group mt-4">
                 <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Reset Password</button>
@@ -82,5 +84,16 @@ if (isset($_POST['submit'])) {
     </div>
   </div>
 </section>
+
+<script>
+function togglePassword(fieldId) {
+  const pwField = document.getElementById(fieldId);
+  if (pwField.type === "password") {
+    pwField.type = "text";
+  } else {
+    pwField.type = "password";
+  }
+}
+</script>
 
 <?php require "../includes/footer.php"; ?>
