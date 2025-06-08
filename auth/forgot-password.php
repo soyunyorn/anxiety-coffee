@@ -11,24 +11,27 @@ if (isset($_POST['submit'])) {
     $email = trim($_POST['email']);
 
     if (empty($email)) {
-        $error = "Please enter your email";
+        echo "<script>alert('Please enter your email');</script>";
     } else {
+        // Check if email exists
         $check = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $check->execute([':email' => $email]);
         $user = $check->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             $verification_code = rand(100000, 999999);
+            // Save verification code in DB
             $update = $conn->prepare("UPDATE users SET verification_code = :code WHERE email = :email");
             $update->execute([':code' => $verification_code, ':email' => $email]);
 
+            // Send email with code
             $mail = new PHPMailer(true);
             try {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'yornsoyun@gmail.com';
-                $mail->Password = 'gpvkevhhqksamxni';
+                $mail->Username = 'yornsoyun@gmail.com';    // Your Gmail
+                $mail->Password = 'gpvkevhhqksamxni';       // App password
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
@@ -39,13 +42,16 @@ if (isset($_POST['submit'])) {
                 $mail->Subject = 'Password Reset Verification Code';
                 $mail->Body = "Hello,<br><br>Your password reset code is: <b>$verification_code</b>";
 
-                header("Location: " . APPURL . "/auth/verify-code.php?email=" . urlencode($email));
+                $mail->send();
+
+                // Redirect to verify-code page with email parameter
+                header("Location: verify-code.php?email=" . urlencode($email));
                 exit;
             } catch (Exception $e) {
-                $error = "Could not send email. Mailer Error: {$mail->ErrorInfo}";
+                echo "<script>alert('Could not send email. Mailer Error: {$mail->ErrorInfo}');</script>";
             }
         } else {
-            $error = "This email is not registered";
+            echo "<script>alert('This email is not registered');</script>";
         }
     }
 }
