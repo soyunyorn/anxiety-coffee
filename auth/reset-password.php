@@ -1,5 +1,5 @@
 <?php
-require "../includes/header.php";
+require "../includes/header.php";  // <-- contains ob_start() and session_start()
 require "../config/config.php";
 
 if (!isset($_GET['email'])) {
@@ -8,40 +8,73 @@ if (!isset($_GET['email'])) {
 }
 
 $email = $_GET['email'];
+$error = "";
 
 if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
     if (empty($password) || empty($confirm_password)) {
-        echo "<script>alert('Please fill all password fields');</script>";
-    } else if ($password !== $confirm_password) {
-        echo "<script>alert('Passwords do not match');</script>";
+        $error = "Please fill all password fields";
+    } elseif ($password !== $confirm_password) {
+        $error = "Passwords do not match";
     } else {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $update = $conn->prepare("UPDATE users SET password = :password, verification_code = NULL WHERE email = :email");
+
+        // Update password and clear verification code & mark as verified
+        $update = $conn->prepare("UPDATE users SET password = :password, verification_code = NULL, is_verified = 1 WHERE email = :email");
         $update->execute([':password' => $hashed, ':email' => $email]);
 
-        echo "<script>alert('Password reset successful. You can now login.'); window.location='login.php';</script>";
-        exit;
+        // Auto-login the user after password reset
+        $user_check = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $user_check->execute([':email' => $email]);
+        $user = $user_check->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['email'] = $user['email'];
+
+            // Redirect to home page (adjust URL as needed)
+            header("Location: ../index.php");
+            exit;
+        } else {
+            $error = "An unexpected error occurred. Please try logging in.";
+        }
     }
 }
 ?>
 
 <section class="ftco-section">
   <div class="container">
-    <h3>Reset Password</h3>
-    <form method="POST" action="reset-password.php?email=<?= htmlspecialchars(urlencode($email)) ?>">
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" name="password" class="form-control" placeholder="New password">
+    <div class="row">
+      <div class="col-md-12 ftco-animate">
+        <?php if (!empty($error)): ?>
+          <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+        <form method="POST" action="reset-password.php?email=<?= htmlspecialchars(urlencode($email)) ?>" class="billing-form ftco-bg-dark p-3 p-md-5">
+          <h3 class="mb-4 billing-heading">Reset Password</h3>
+          <div class="row align-items-end">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="password">New Password</label>
+                <input type="password" name="password" class="form-control" placeholder="New password" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="confirm_password">Confirm New Password</label>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mt-4">
+                <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Reset Password</button>
+              </div>
+            </div>
+          </div>
+        </form><!-- END -->
       </div>
-      <div class="form-group">
-        <label>Confirm New Password</label>
-        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password">
-      </div>
-      <button type="submit" name="submit" class="btn btn-primary">Reset Password</button>
-    </form>
+    </div>
   </div>
 </section>
 
