@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
             ]);
 
             // Redirect to homepage after successful booking
-            header("Location: /sreyneang/anxiety-coffee/");
+            header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/");
             exit();
         } else {
             echo "<script>alert('The booking date must be in the future.');</script>";
