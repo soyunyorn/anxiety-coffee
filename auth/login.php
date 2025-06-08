@@ -2,41 +2,41 @@
 <?php require "../config/config.php"; ?>
 
 <?php 
-  if(isset($_SESSION['username'])) {
-    header("location: ".APPURL."");
-    exit;
-  }
-  
-  if(isset($_POST['submit'])) {
+if (isset($_SESSION['username'])) {
+  header("location: " . APPURL);
+  exit;
+}
 
-    if(empty($_POST['email']) || empty($_POST['password'])) {
-      echo "<script>alert('One or more inputs are empty');</script>";
-    } else { 
-      $email = $_POST['email'];
-      $password = $_POST['password'];
+if (isset($_POST['submit'])) {
+  if (empty($_POST['email']) || empty($_POST['password'])) {
+    echo "<script>alert('One or more inputs are empty');</script>";
+  } else {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-      $login = $conn->prepare("SELECT * FROM users WHERE email = :email");
-      $login->execute([':email' => $email]);
-      $fetch = $login->fetch(PDO::FETCH_ASSOC);
+    $login = $conn->prepare("SELECT * FROM users WHERE email = :email");
+    $login->execute([':email' => $email]);
+    $fetch = $login->fetch(PDO::FETCH_ASSOC);
 
-      if($login->rowCount() > 0) {
-        if ($fetch['is_verified'] == 0) {
-          echo "<script>alert('Please verify your email first before logging in.');</script>";
-        } else if(password_verify($password, $fetch['password'])) {
-          $_SESSION['username'] = $fetch['username'];
-          $_SESSION['email'] = $fetch['email'];
-          $_SESSION['user_id'] = $fetch['id'];
+    if ($login->rowCount() > 0) {
+      if ($fetch['is_verified'] == 0) {
+        echo "<script>alert('Please verify your email first before logging in.');</script>";
+      } else if (password_verify($password, $fetch['password'])) {
+        $_SESSION['username'] = $fetch['username'];
+        $_SESSION['email'] = $fetch['email'];
+        $_SESSION['user_id'] = $fetch['id'];
 
-          header("location: ".APPURL."");
-          exit;
-        } else {
-          echo "<script>alert('Email or password is wrong');</script>";
-        }
+        // ✅ Redirect to home page
+        header("Location: " . APPURL);
+        exit;
       } else {
         echo "<script>alert('Email or password is wrong');</script>";
       }
+    } else {
+      echo "<script>alert('Email or password is wrong');</script>";
     }
   }
+}
 ?>
 
 <section class="ftco-section">
