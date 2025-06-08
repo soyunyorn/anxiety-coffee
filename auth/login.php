@@ -1,55 +1,51 @@
-<?php
-require "../config/config.php"; // Load config first
-require "../includes/functions.php"; // If any
-
-session_start(); // Remove this if already in header.php, or just ignore it here
-
-// Handle login first before output starts
-if (isset($_SESSION['username'])) {
-    header("Location: " . APPURL . "/index.php");
-    exit;
-}
-
-if (isset($_POST['submit'])) {
-    if (empty($_POST['email']) || empty($_POST['password'])) {
-        $error = "One or more inputs are empty";
-    } else {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->execute([':email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($stmt->rowCount() > 0) {
-            if ($user['is_verified'] == 0) {
-                $error = "Please verify your email before logging in.";
-            } elseif (password_verify($password, $user['password'])) {
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['user_id'] = $user['id'];
-
-                header("Location: " . APPURL . "/index.php");
-                exit;
-            } else {
-                $error = "Email or password is incorrect.";
-            }
-        } else {
-            $error = "Email or password is incorrect.";
-        }
-    }
-}
-?>
-
 <?php require "../includes/header.php"; ?>
+<?php require "../config/config.php"; ?>
+
+<?php 
+  if(isset($_SESSION['username'])) {
+    header("location: ".APPURL."");
+    exit;
+  }
+  
+  if(isset($_POST['submit'])) {
+
+    if(empty($_POST['email']) OR empty($_POST['password'])) {
+      echo "<script>alert('One or more inputs are empty');</script>";
+    } else { 
+
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+
+      // Prepare and execute query safely with prepared statements
+      $login = $conn->prepare("SELECT * FROM users WHERE email = :email");
+      $login->execute([':email' => $email]);
+      $fetch = $login->fetch(PDO::FETCH_ASSOC);
+
+      if($login->rowCount() > 0) {
+        if ($fetch['is_verified'] == 0) {
+          echo "<script>alert('Please verify your email first before logging in.');</script>";
+        } else if(password_verify($password, $fetch['password'])) {
+          // Start session and login
+          $_SESSION['username'] = $fetch['username'];
+          $_SESSION['email'] = $fetch['email'];
+          $_SESSION['user_id'] = $fetch['id'];
+
+          header("location: ".APPURL."");
+          exit;
+        } else {
+          echo "<script>alert('Email or password is wrong');</script>";
+        }
+      } else {
+        echo "<script>alert('Email or password is wrong');</script>";
+      }
+    }
+  }
+?>
 
 <section class="ftco-section">
   <div class="container">
     <div class="row">
       <div class="col-md-12 ftco-animate">
-        <?php if (!empty($error)): ?>
-          <div class="alert alert-danger"><?php echo $error; ?></div>
-        <?php endif; ?>
         <form action="login.php" method="POST" class="billing-form ftco-bg-dark p-3 p-md-5">
           <h3 class="mb-4 billing-heading">Login</h3>
           <div class="row align-items-end">
