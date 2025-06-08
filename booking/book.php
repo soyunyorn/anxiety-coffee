@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
                 ":user_id" => $user_id
             ]);
 
-            header("Location: " . APPURL);
+            header("Location: /sreyneang/anxiety-coffee/");
             exit();
         } else {
             echo "<script>alert('The booking date must be in the future.');</script>";
