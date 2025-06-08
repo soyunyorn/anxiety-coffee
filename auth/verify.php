@@ -1,5 +1,7 @@
 <?php
-require "../includes/header.php";
+ob_start(); // start output buffering before including header
+
+require "../includes/header.php"; // header.php has session_start()
 require "../config/config.php";
 
 if (isset($_SESSION['username'])) {
@@ -10,7 +12,6 @@ if (isset($_SESSION['username'])) {
 if (isset($_GET['email'])) {
     $email = $_GET['email'];
 } else {
-    // Redirect back if no email
     header("Location: register.php");
     exit;
 }
@@ -24,11 +25,9 @@ if (isset($_POST['submit'])) {
 
     if ($user) {
         if ($user['verification_code'] == $input_code) {
-            // Update verification status
             $update = $conn->prepare("UPDATE users SET is_verified = 1 WHERE email = :email");
             $update->execute([':email' => $email]);
 
-            // Log the user in automatically
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['user_id'] = $user['id'];
@@ -67,3 +66,5 @@ if (isset($_POST['submit'])) {
 </section>
 
 <?php require "../includes/footer.php"; ?>
+
+<?php ob_end_flush(); ?>
