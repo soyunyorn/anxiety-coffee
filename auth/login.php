@@ -9,14 +9,12 @@
   
   if(isset($_POST['submit'])) {
 
-    if(empty($_POST['email']) OR empty($_POST['password'])) {
+    if(empty($_POST['email']) || empty($_POST['password'])) {
       echo "<script>alert('One or more inputs are empty');</script>";
     } else { 
-
       $email = $_POST['email'];
       $password = $_POST['password'];
 
-      // Prepare and execute query safely with prepared statements
       $login = $conn->prepare("SELECT * FROM users WHERE email = :email");
       $login->execute([':email' => $email]);
       $fetch = $login->fetch(PDO::FETCH_ASSOC);
@@ -25,7 +23,6 @@
         if ($fetch['is_verified'] == 0) {
           echo "<script>alert('Please verify your email first before logging in.');</script>";
         } else if(password_verify($password, $fetch['password'])) {
-          // Start session and login
           $_SESSION['username'] = $fetch['username'];
           $_SESSION['email'] = $fetch['email'];
           $_SESSION['user_id'] = $fetch['id'];
@@ -52,13 +49,17 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="Email">Email</label>
-                <input name="email" type="text" class="form-control" placeholder="Email">
+                <input name="email" type="text" class="form-control" placeholder="Email" required>
               </div>
             </div>
+
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group" style="position: relative;">
                 <label for="Password">Password</label>
-                <input name="password" type="password" class="form-control" placeholder="Password">
+                <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
+                <span id="togglePassword" style="position: absolute; top: 38px; right: 15px; cursor: pointer;">
+                  👁️
+                </span>
               </div>
             </div>
 
@@ -72,10 +73,24 @@
               </div>
             </div>
           </div>
-        </form><!-- END -->
+        </form>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Show/hide password with icon -->
+<script>
+  const toggle = document.getElementById('togglePassword');
+  const password = document.getElementById('password');
+
+  toggle.addEventListener('click', function () {
+    const type = password.type === 'password' ? 'text' : 'password';
+    password.type = type;
+
+    // Toggle icon (optional: swap emoji)
+    toggle.textContent = type === 'password' ? '👁️' : '🙈';
+  });
+</script>
 
 <?php require "../includes/footer.php"; ?>
