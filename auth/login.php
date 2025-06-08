@@ -1,9 +1,10 @@
-<?php require "../includes/header.php"; ?>
-<?php require "../config/config.php"; ?>
+<?php
+ob_start();
+require "../includes/header.php";
+require "../config/config.php";
 
-<?php 
 if (isset($_SESSION['username'])) {
-  header("location: ".APPURL."");
+  header("Location: /sreyneang/anxiety-coffee/");
   exit;
 }
 
@@ -26,8 +27,8 @@ if (isset($_POST['submit'])) {
         $_SESSION['email'] = $fetch['email'];
         $_SESSION['user_id'] = $fetch['id'];
 
-        // ✅ Redirect to home page
-        header("Location: " . APPURL);
+        // 🔁 Redirect to homepage
+        header("Location: /sreyneang/anxiety-coffee/");
         exit;
       } else {
         echo "<script>alert('Email or password is wrong');</script>";
@@ -38,6 +39,7 @@ if (isset($_POST['submit'])) {
   }
 }
 ?>
+
 
 <section class="ftco-section">
   <div class="container">
