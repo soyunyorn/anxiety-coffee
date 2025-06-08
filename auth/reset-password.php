@@ -1,5 +1,5 @@
 <?php
-require "../includes/header.php";  // <-- contains ob_start() and session_start()
+require "../includes/header.php";  // assumes ob_start() and session_start() inside
 require "../config/config.php";
 
 if (!isset($_GET['email'])) {
@@ -10,9 +10,13 @@ if (!isset($_GET['email'])) {
 $email = $_GET['email'];
 $error = "";
 
+// To keep user input after submit
+$password = "";
+$confirm_password = "";
+
 if (isset($_POST['submit'])) {
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $password = $_POST['password'] ?? "";
+    $confirm_password = $_POST['confirm_password'] ?? "";
 
     if (empty($password) || empty($confirm_password)) {
         $error = "Please fill all password fields";
@@ -34,7 +38,6 @@ if (isset($_POST['submit'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
 
-            // Redirect to home page (adjust URL as needed)
             header("Location: ../index.php");
             exit;
         } else {
@@ -57,13 +60,15 @@ if (isset($_POST['submit'])) {
             <div class="col-md-12">
               <div class="form-group">
                 <label for="password">New Password</label>
-                <input type="password" name="password" class="form-control" placeholder="New password" required>
+                <input type="password" name="password" class="form-control" placeholder="New password" required
+                       value="<?= htmlspecialchars($password) ?>">
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="confirm_password">Confirm New Password</label>
-                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required
+                       value="<?= htmlspecialchars($confirm_password) ?>">
               </div>
             </div>
             <div class="col-md-12">
