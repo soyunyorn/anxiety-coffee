@@ -13,18 +13,17 @@ if (isset($_POST['submit'])) {
     $code = trim($_POST['code']);
 
     if (empty($code)) {
-        echo "<script>alert('Please enter the verification code');</script>";
+        $error = "Please enter the verification code.";
     } else {
         $check = $conn->prepare("SELECT * FROM users WHERE email = :email AND verification_code = :code");
         $check->execute([':email' => $email, ':code' => $code]);
         $user = $check->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Code matches, redirect to reset password page
             header("Location: reset-password.php?email=" . urlencode($email));
             exit;
         } else {
-            echo "<script>alert('Invalid verification code');</script>";
+            $error = "Invalid verification code.";
         }
     }
 }
@@ -32,14 +31,29 @@ if (isset($_POST['submit'])) {
 
 <section class="ftco-section">
   <div class="container">
-    <h3>Verify Your Code</h3>
-    <form method="POST" action="verify-code.php?email=<?= htmlspecialchars(urlencode($email)) ?>">
-      <div class="form-group">
-        <label>Enter the code you received</label>
-        <input type="text" name="code" class="form-control" placeholder="Verification code">
+    <div class="row">
+      <div class="col-md-12 ftco-animate">
+        <?php if (!empty($error)): ?>
+          <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+        <form method="POST" action="verify-code.php?email=<?= htmlspecialchars(urlencode($email)) ?>" class="billing-form ftco-bg-dark p-3 p-md-5">
+          <h3 class="mb-4 billing-heading">Verify Code</h3>
+          <div class="row align-items-end">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="code">Verification Code</label>
+                <input type="text" name="code" class="form-control" placeholder="Enter the code sent to your email" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mt-4">
+                <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Verify</button>
+              </div>
+            </div>
+          </div>
+        </form><!-- END -->
       </div>
-      <button type="submit" name="submit" class="btn btn-primary">Verify Code</button>
-    </form>
+    </div>
   </div>
 </section>
 
