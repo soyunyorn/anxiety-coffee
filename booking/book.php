@@ -1,8 +1,6 @@
-<?php require "../includes/header.php"; ?>
-<?php require "../config/config.php"; ?>
-
-<?php 
-
+<?php
+require "../includes/header.php"; // Make sure session_start() is here
+require "../config/config.php";
 
 if (isset($_POST['submit'])) {
 
@@ -22,9 +20,10 @@ if (isset($_POST['submit'])) {
         $message = $_POST['message'];
         $user_id = $_SESSION['user_id'];
 
-        // ✅ Correct date comparison using DateTime
+        // Convert date input to DateTime object
         $inputDate = DateTime::createFromFormat('n/j/Y', $date);
         $today = new DateTime();
+        $today->setTime(0, 0, 0);  // Compare only date part
 
         if ($inputDate && $inputDate > $today) {
             $insert = $conn->prepare("INSERT INTO bookings (first_name, last_name, date, time, phone, message, user_id) 
@@ -40,6 +39,7 @@ if (isset($_POST['submit'])) {
                 ":user_id" => $user_id
             ]);
 
+            // Redirect to homepage after successful booking
             header("Location: /sreyneang/anxiety-coffee/");
             exit();
         } else {
