@@ -1,5 +1,4 @@
 <?php
-require "../includes/header.php";
 require "../config/config.php";
 
 if (!isset($_GET['email'])) {
@@ -8,6 +7,8 @@ if (!isset($_GET['email'])) {
 }
 
 $email = $_GET['email'];
+
+$error = "";
 
 if (isset($_POST['submit'])) {
     $code = trim($_POST['code']);
@@ -27,6 +28,8 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+
+require "../includes/header.php";
 ?>
 
 <section class="ftco-section">
