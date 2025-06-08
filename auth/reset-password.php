@@ -1,5 +1,5 @@
 <?php
-ob_start(); // Start output buffering
+ob_start();
 require "../includes/header.php";
 require "../config/config.php";
 
@@ -9,39 +9,34 @@ if (!isset($_GET['email'])) {
 }
 
 $email = $_GET['email'];
-$error = "";
 
 if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
     if (empty($password) || empty($confirm_password)) {
-        $error = "Please fill all password fields";
-    } else if ($password !== $confirm_password) {
-        $error = "Passwords do not match";
+        $error = "Please fill in all password fields.";
+    } elseif ($password !== $confirm_password) {
+        $error = "Passwords do not match.";
     } else {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
         $update = $conn->prepare("UPDATE users SET password = :password, verification_code = NULL WHERE email = :email");
         $update->execute([':password' => $hashed, ':email' => $email]);
 
-        // Auto login user after reset password
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->execute([':email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Auto-login user
+        $getUser = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $getUser->execute([':email' => $email]);
+        $user = $getUser->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email'];
-
-            header("Location: ../index.php"); // Redirect to home page
-            exit;
-        } else {
-            $error = "Something went wrong. Please try logging in.";
+            $_SESSION['user_id'] = $user['id'];
         }
+
+        header("Location: " . APPURL);
+        exit;
     }
 }
-
-ob_end_flush(); // Flush output buffer
 ?>
 
 <section class="ftco-section">
@@ -57,16 +52,17 @@ ob_end_flush(); // Flush output buffer
             <div class="col-md-12">
               <div class="form-group">
                 <label for="password">New Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="New password" required>
-                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" style="cursor:pointer; position:absolute; right:10px; top:35px;"></span>
+                <input type="password" name="password" id="password" class="form-control" placeholder="New password" required>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="confirm_password">Confirm New Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
-                <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password" style="cursor:pointer; position:absolute; right:10px; top:35px;"></span>
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm password" required>
               </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <input type="checkbox" id="togglePassword"> <label for="togglePassword">Show Password</label>
             </div>
             <div class="col-md-12">
               <div class="form-group mt-4">
@@ -74,28 +70,26 @@ ob_end_flush(); // Flush output buffer
               </div>
             </div>
           </div>
-        </form><!-- END -->
+        </form>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Password Toggle Script -->
 <script>
-  // Toggle password visibility
-  document.querySelectorAll('.toggle-password').forEach(function(toggleIcon) {
-    toggleIcon.addEventListener('click', function () {
-      const input = document.querySelector(this.getAttribute('toggle'));
-      if (input.type === 'password') {
-        input.type = 'text';
-        this.classList.remove('fa-eye');
-        this.classList.add('fa-eye-slash');
-      } else {
-        input.type = 'password';
-        this.classList.remove('fa-eye-slash');
-        this.classList.add('fa-eye');
-      }
-    });
+  const toggle = document.getElementById("togglePassword");
+  const pwd1 = document.getElementById("password");
+  const pwd2 = document.getElementById("confirm_password");
+
+  toggle.addEventListener("change", function () {
+    const type = this.checked ? "text" : "password";
+    pwd1.type = type;
+    pwd2.type = type;
   });
 </script>
 
-<?php require "../includes/footer.php"; ?>
+<?php
+require "../includes/footer.php";
+ob_end_flush();
+?>
