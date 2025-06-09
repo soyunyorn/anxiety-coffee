@@ -169,6 +169,7 @@
 		</div>
 	</div>
 </section>
+<style>
 /* Match your site's button hover color */
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
@@ -186,7 +187,7 @@
   opacity: 1;
   cursor: not-allowed;
 }
-
+</style>
 
 
 <?php require "../includes/footer.php"; ?>
