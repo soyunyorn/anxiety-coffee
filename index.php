@@ -23,7 +23,7 @@
            <div class="col-md-8 col-sm-12 text-center ftco-animate">
              <span class="subheading">Welcome</span>
              <h1 class="mb-4">The Best Coffee Testing Experience</h1>
-             <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+             <p class="mb-4 mb-md-5">Like the gentle flow of the Tonle Sap and Mekong rivers through Phnom Penh, our coffee brings you calm and comfort in every cup. Close to home, crafted for your peaceful moments.</p>
              <p>
                <a href="<?php echo isset($_SESSION['user_id']) ? 'users/Orders.php' : 'auth/login.php'; ?>" 
                   class="btn btn-primary p-3 px-xl-4 py-xl-3">
@@ -47,7 +47,7 @@
            <div class="col-md-8 col-sm-12 text-center ftco-animate">
              <span class="subheading">Welcome</span>
              <h1 class="mb-4">Amazing Taste &amp; Beautiful Place</h1>
-              <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+              <p class="mb-4 mb-md-5">Like the gentle flow of the Tonle Sap and Mekong rivers through Phnom Penh, our coffee brings you calm and comfort in every cup. Close to home, crafted for your peaceful moments.</p>
              <p>
                <a href="<?php echo isset($_SESSION['user_id']) ? 'users/Orders.php' : 'auth/login.php'; ?>" 
                   class="btn btn-primary p-3 px-xl-4 py-xl-3">
@@ -71,7 +71,7 @@
            <div class="col-md-8 col-sm-12 text-center ftco-animate">
              <span class="subheading">Welcome</span>
              <h1 class="mb-4">Creamy Hot and Ready to Serve</h1>
-              <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+              <p class="mb-4 mb-md-5">Like the gentle flow of the Tonle Sap and Mekong rivers through Phnom Penh, our coffee brings you calm and comfort in every cup. Close to home, crafted for your peaceful moments.</p>
              <p>
                <a href="<?php echo isset($_SESSION['user_id']) ? 'users/Orders.php' : 'auth/login.php'; ?>" 
                   class="btn btn-primary p-3 px-xl-4 py-xl-3">
@@ -97,22 +97,22 @@
 	    				<div class="col-md-4 d-flex ftco-animate">
 	    					<div class="icon"><span class="icon-phone"></span></div>
 	    					<div class="text">
-	    						<h3>000 (123) 456 7890</h3>
-	    						<p>A small river named Duden flows by their place and supplies.</p>
+	    						<h3>+855 966 685 018</h3>
+	    						<p>A gentle flow of support is always nearby, we’re here to keep things smooth and steady.</p>
 	    					</div>
 	    				</div>
 	    				<div class="col-md-4 d-flex ftco-animate">
 	    					<div class="icon"><span class="icon-my_location"></span></div>
 	    					<div class="text">
-	    						<h3>198 West 21th Street</h3>
-	    						<p>	203 Fake St. Mountain View, San Francisco, California, USA</p>
+	    						<h3> West 21th Street</h3>
+	    						<p>	168st Phnom Penh Tmey, Sen Sok, Phnom Penh</p>
 	    					</div>
 	    				</div>
 	    				<div class="col-md-4 d-flex ftco-animate">
 	    					<div class="icon"><span class="icon-clock-o"></span></div>
 	    					<div class="text">
 	    						<h3>Open Monday-Friday</h3>
-	    						<p>8:00am - 9:00pm</p>
+	    						<p>7:00am - 9:00pm</p>
 	    					</div>
 	    				</div>
 	    			</div>
@@ -191,7 +191,7 @@
               </div>
               <div class="media-body">
                 <h3 class="heading">Easy to Order</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>We’ve made ordering as smooth as your first sip. No complicated steps, no overwhelming choices — just a quick, calming way to get the coffee you love, delivered right when you need it.</p>
               </div>
             </div>      
           </div>
@@ -202,7 +202,7 @@
               </div>
               <div class="media-body">
                 <h3 class="heading">Fastest Delivery</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>Your coffee, on your terms — fast, fresh, and right when you need it. Because anxiety doesn’t wait, and neither should you.</p>
               </div>
             </div>      
           </div>
@@ -212,7 +212,8 @@
               	<span class="flaticon-coffee-bean"></span></div>
               <div class="media-body">
                 <h3 class="heading">Quality Coffee</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>We believe great coffee shouldn't just wake you up — it should ease you in. That’s why we source premium beans, roast them with precision,
+                  and brew every cup to bring comfort, not chaos. No bitter aftertaste, no caffeine jitters — just a smooth, grounded experience that helps you face the day, one peaceful sip at a time.</p>
               </div>
             </div>    
           </div>
@@ -227,7 +228,8 @@
     				<div class="heading-section text-md-right ftco-animate">
 	          	<span class="subheading">Discover</span>
 	            <h2 class="mb-4">Our Menu</h2>
-	            <p class="mb-4">From the first sip to the final drop, every cup at Anxiety Coffee tells a story. Handcrafted with passion, sourced from the finest beans, and brewed to perfection — our menu is a journey through bold flavors, rich aromas, and comforting warmth. Come discover what makes every visit unforgettable.</p>
+	            <p class="mb-4">From the first sip to the final drop, every cup at Anxiety Coffee tells a story. Handcrafted with passion, sourced from the finest beans, and brewed to perfection — our menu is a journey through bold flavors,
+					 rich aromas, and comforting warmth. Come discover what makes every visit unforgettable.</p>
 	            <p><a href="menu.php" class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
 	          </div>
     			</div>
@@ -380,7 +382,7 @@
 	        <div class="col-md-7 heading-section text-center ftco-animate">
 	        	<span class="subheading">Testimony</span>
 	          <h2 class="mb-4">Customers Says</h2>
-	          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	          <p>Far away from the noise of the world, Anxiety-Coffee feels like a peaceful escape. It’s my daily calm behind the chaos — simple, soothing, and always reliable.</p>
 	        </div>
 	      </div>
 	    </div>

@@ -27,7 +27,7 @@
 	              <h2 class="h4">Contact Information</h2>
 	            </div>
 	            <div class="col-md-12 mb-3">
-	              <p><span>Address:</span> 128 Phnom Penh Tmey Sen Sok Phnom Penh</p>
+	              <p><span>Address:</span> 168st Phnom Penh Tmey Sen Sok Phnom Penh</p>
 	            </div>
 	            <div class="col-md-12 mb-3">
 	              <p><span>Phone:</span> <a href="tel:0 966 685 018">+855 966 685 018</a></p>

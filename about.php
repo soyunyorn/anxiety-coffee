@@ -52,7 +52,7 @@
 	        <div class="col-md-7 heading-section text-center ftco-animate">
 	        	<span class="subheading">Testimony</span>
 	          <h2 class="mb-4">Customers Says</h2>
-	          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	          <p>Far away from the noise of the world, Anxiety-Coffee feels like a peaceful escape. It’s my daily calm behind the chaos — simple, soothing, and always reliable.</p>
 	        </div>
 	      </div>
 	    </div>
@@ -83,7 +83,8 @@
     				<div class="heading-section text-md-right ftco-animate">
 	          	<span class="subheading">Discover</span>
 	            <h2 class="mb-4">Our Menu</h2>
-	            <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+	            <p class="mb-4">From the first sip to the final drop, every cup at Anxiety Coffee tells a story. Handcrafted with passion, sourced from the finest beans, and brewed to perfection — our menu is a journey through bold flavors,
+					 rich aromas, and comforting warmth. Come discover what makes every visit unforgettable.</p>
 	            <p><a href="menu.php" class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
 	          </div>
     			</div>
