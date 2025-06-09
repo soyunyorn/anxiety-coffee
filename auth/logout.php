@@ -1,7 +1,6 @@
 <?php
-
-
-    session_start();
-    session_unset();
-    session_destroy();
-    header("https://maisreyneang.com/sreyneang/anxiety-coffee/");
+session_start();
+session_unset();
+session_destroy();
+header("location: https://anxiety-coffee.com");
+exit;
