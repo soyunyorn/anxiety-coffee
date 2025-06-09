@@ -5,7 +5,7 @@ require "../../config/config.php";
 session_start();
 
 if (isset($_SESSION['admin_name'])) {
-    header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
+    header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/admins/admins.php");
     exit;
 }
 
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Secure query using prepared statement
+        // Use prepared statement for security
         $login = $conn->prepare("SELECT * FROM admins WHERE email = :email");
         $login->bindParam(':email', $email);
         $login->execute();
@@ -32,14 +32,14 @@ if (isset($_POST['submit'])) {
                 $_SESSION['email'] = $fetch['email'];
                 $_SESSION['admin_id'] = $fetch['id'];
 
-                // ✅ Redirect to live admin panel
-                header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
+                // ✅ Redirect to admin dashboard
+                header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/admins/admins.php");
                 exit;
             } else {
-                echo "<script>alert('Email or password is wrong');</script>";
+                echo "<script>alert('Email or password is incorrect');</script>";
             }
         } else {
-            echo "<script>alert('Email or password is wrong');</script>";
+            echo "<script>alert('Email or password is incorrect');</script>";
         }
     }
 }
@@ -51,17 +51,14 @@ if (isset($_POST['submit'])) {
             <div class="card-body">
                 <h5 class="card-title mt-5">Login</h5>
                 <form method="POST" action="login-admins.php" class="p-auto">
-                    <!-- Email input -->
                     <div class="form-outline mb-4">
                         <input type="email" name="email" class="form-control" placeholder="Email" required />
                     </div>
 
-                    <!-- Password input -->
                     <div class="form-outline mb-4">
                         <input type="password" name="password" class="form-control" placeholder="Password" required />
                     </div>
 
-                    <!-- Submit button -->
                     <button type="submit" name="submit" class="btn btn-primary mb-4 text-center">Login</button>
                 </form>
             </div>
