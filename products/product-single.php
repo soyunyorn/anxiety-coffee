@@ -128,9 +128,9 @@
 					<div class="mt-4">
 						<?php if(isset($_SESSION['user_id'])) : ?>
 							<?php if($rowCount > 0) : ?>
-								<button name="submit" type="submit" class="btn btn-primary py-3 px-5" disabled>Added to Cart</button>
+								<button name="submit" type="submit" class="btn btn-primary btn-outline-primary" disabled>Added to Cart</button>
 							<?php else : ?>	
-								<button name="submit" type="submit" class="btn btn-primary py-3 px-5">Add to Cart</button>
+								<button name="submit" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
 							<?php endif; ?>	
 						<?php else : ?>	
 							<p>Please login to add product to cart</p>
