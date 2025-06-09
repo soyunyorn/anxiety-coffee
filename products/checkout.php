@@ -1,33 +1,32 @@
-<?php 
-require "../includes/header.php"; 
-require "../config/config.php"; 
-//session_start();
+<?php
+ob_start(); // Fixes header redirect issue
 
-if(!isset($_SERVER['HTTP_REFERER'])){
-    // Redirect if no referer
+require "../includes/header.php";
+require "../config/config.php";
+
+// Protect access
+if (!isset($_SERVER['HTTP_REFERER'])) {
     header('location: http://localhost/anxiety-coffee');
     exit;
 }
 
-if(!isset($_SESSION['user_id'])) {
-    header("location: ".APPURL."");
+if (!isset($_SESSION['user_id'])) {
+    header("location: " . APPURL . "");
     exit;
 }
 
-// Include your PHPMailer send function file (adjust path if needed)
 require "send_mail.php";
 
-if(isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
 
-    // Check required fields
-    if(empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['state']) || 
-       empty($_POST['street_address']) || empty($_POST['town']) || empty($_POST['zip_code']) ||
-       empty($_POST['phone']) || empty($_POST['email'])) {
-
+    // Validate required fields
+    if (
+        empty($_POST['first_name']) || empty($_POST['last_name']) || empty($_POST['state']) ||
+        empty($_POST['street_address']) || empty($_POST['town']) || empty($_POST['zip_code']) ||
+        empty($_POST['phone']) || empty($_POST['email'])
+    ) {
         echo "<script>alert('One or more inputs are empty');</script>";
-
     } else {
-
         $first_name = trim($_POST['first_name']);
         $last_name = trim($_POST['last_name']);
         $state = trim($_POST['state']);
@@ -40,29 +39,25 @@ if(isset($_POST['submit'])) {
         $status = "Pending";
         $total_price = $_SESSION['total_price'] ?? 0;
 
-        // Insert order into DB (make sure your orders table has 'email' column)
-        $place_orders = $conn->prepare("INSERT INTO orders (first_name, last_name, state, street_address,
-    town, zip_code, phone, user_id, status, total_price)
-    VALUES (:first_name, :last_name, :state, :street_address, :town, :zip_code, :phone, :user_id, :status, :total_price)");
+        $place_orders = $conn->prepare("INSERT INTO orders (first_name, last_name, state, street_address, town, zip_code, phone, user_id, status, total_price)
+            VALUES (:first_name, :last_name, :state, :street_address, :town, :zip_code, :phone, :user_id, :status, :total_price)");
 
-$place_orders->execute([
-    ":first_name" => $first_name,
-    ":last_name" => $last_name,
-    ":state" => $state,
-    ":street_address" => $street_address,
-    ":town" => $town,
-    ":zip_code" => $zip_code,
-    ":phone" => $phone,
-    ":user_id" => $user_id,
-    ":status" => $status,
-    ":total_price" => $total_price,
-]);
+        $place_orders->execute([
+            ":first_name" => $first_name,
+            ":last_name" => $last_name,
+            ":state" => $state,
+            ":street_address" => $street_address,
+            ":town" => $town,
+            ":zip_code" => $zip_code,
+            ":phone" => $phone,
+            ":user_id" => $user_id,
+            ":status" => $status,
+            ":total_price" => $total_price,
+        ]);
 
-
-        // Get last inserted order ID
         $order_id = $conn->lastInsertId();
 
-        // Prepare invoice email content (HTML)
+        // Prepare email
         $subject = "Your Invoice for Order #$order_id";
         $body = "
             <h1>Thank you for your order!</h1>
@@ -75,22 +70,19 @@ $place_orders->execute([
             <p>We will process your order shortly.</p>
         ";
 
-        // Send invoice email to user - using your PHPMailer function
         $mailSent = sendEmail($email, "$first_name $last_name", $subject, $body);
 
-        if(!$mailSent) {
-            error_log("Invoice email sending failed for order $order_id");
+        if (!$mailSent) {
+            error_log("Invoice email failed for order $order_id");
         }
 
-        // Redirect to payment page
         header("location: pay.php");
         exit;
     }
 }
 ?>
 
-<!-- Your existing HTML form below -->
-
+<!-- HTML Form -->
 <section class="ftco-section">
   <div class="container">
     <div class="row">
@@ -100,23 +92,25 @@ $place_orders->execute([
           <div class="row align-items-end">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="firstname">First Name</label>
-                <input name="first_name" type="text" class="form-control" placeholder="" required>
+                <label>First Name</label>
+                <input name="first_name" type="text" class="form-control" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="lastname">Last Name</label>
-                <input name="last_name" type="text" class="form-control" placeholder="" required>
+                <label>Last Name</label>
+                <input name="last_name" type="text" class="form-control" required>
               </div>
             </div>
             <div class="w-100"></div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="country">State / Country</label>
+                <label>State / Country</label>
                 <div class="select-wrap">
                   <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                  <select name="state" class="form-control" required>
+                  <select name="state" class="form-control" style="color: black;" required>
+                    <option value="">-- Select Country --</option>
+                    <option value="Cambodia">Cambodia</option>
                     <option value="France">France</option>
                     <option value="Italy">Italy</option>
                     <option value="Philippines">Philippines</option>
@@ -130,37 +124,34 @@ $place_orders->execute([
             <div class="w-100"></div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="streetaddress">Street Address</label>
+                <label>Street Address</label>
                 <input name="street_address" type="text" class="form-control" placeholder="House number and street name" required>
               </div>
             </div>
-            <div class="w-100"></div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="towncity">Town / City</label>
-                <input name="town" type="text" class="form-control" placeholder="" required>
+                <label>Town / City</label>
+                <input name="town" type="text" class="form-control" required>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="postcodezip">Postcode / ZIP *</label>
-                <input name="zip_code" type="text" class="form-control" placeholder="" required>
-              </div>
-            </div>
-            <div class="w-100"></div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="phone">Phone</label>
-                <input name="phone" type="text" class="form-control" placeholder="" required>
+                <label>Postcode / ZIP *</label>
+                <input name="zip_code" type="text" class="form-control" required>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="emailaddress">Email Address</label>
-                <input name="email" type="email" class="form-control" placeholder="" required>
+                <label>Phone</label>
+                <input name="phone" type="text" class="form-control" required>
               </div>
             </div>
-            <div class="w-100"></div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input name="email" type="email" class="form-control" required>
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="form-group mt-4">
                 <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Place an order and pay</button>
@@ -168,9 +159,10 @@ $place_orders->execute([
             </div>
           </div>
         </form>
-      </div> <!-- .col-md-12 -->
-    </div> <!-- .row -->
-  </div> <!-- .container -->
+      </div>
+    </div>
+  </div>
 </section>
 
 <?php require "../includes/footer.php"; ?>
+<?php ob_end_flush(); ?>
