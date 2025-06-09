@@ -169,5 +169,24 @@
 		</div>
 	</div>
 </section>
+/* Match your site's button hover color */
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  color: #fff !important;
+  background-color: #6f4e37 !important; /* replace with your actual color */
+  border-color: #6f4e37 !important;
+}
+
+/* Optional: keep disabled buttons in the same style */
+.btn-outline-primary:disabled,
+.btn-outline-primary:disabled:hover {
+  color: #fff !important;
+  background-color: #6f4e37 !important;
+  border-color: #6f4e37 !important;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+
 
 <?php require "../includes/footer.php"; ?>
