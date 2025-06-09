@@ -5,7 +5,7 @@ require "../../config/config.php";
 session_start();
 
 if (isset($_SESSION['admin_name'])) {
-    header("Location: " . ADMINURL . "/admins/admins.php");
+    header("Location: " . ADMINURL . "/index.php");
     exit;
 }
 
@@ -32,8 +32,8 @@ if (isset($_POST['submit'])) {
                 $_SESSION['email'] = $fetch['email'];
                 $_SESSION['admin_id'] = $fetch['id'];
 
-                // Redirect to admin dashboard
-                header("Location: " . ADMINURL . "/admins/admins.php");
+                // ✅ Redirect to main admin index page
+                header("Location: " . ADMINURL . "/index.php");
                 exit;
             } else {
                 echo "<script>alert('Email or password is wrong');</script>";
