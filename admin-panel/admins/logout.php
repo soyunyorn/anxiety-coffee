@@ -1,7 +1,14 @@
 <?php
+// Start the session
+session_start();
 
+// Clear all session variables
+session_unset();
 
-    session_start();
-    session_unset();
-    session_destroy();
-    header("location: http://localhost/anxiety-coffee/admin-panel/admins/login-admins.php");
+// Destroy the session
+session_destroy();
+
+// Redirect to the login page on your live server
+header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/admins/login-admins.php");
+exit;
+?>

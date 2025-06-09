@@ -1,66 +1,75 @@
-<?php 
-require "includes/header.php"; 
-require "config/config.php";
+<?php require "includes/header.php"; ?>
+<?php require "config/config.php"; ?>
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Collect and sanitize form inputs
-    $name = filter_var($_POST['name'] ?? '', FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
-    $subject = filter_var($_POST['subject'] ?? '', FILTER_SANITIZE_STRING);
-    $message = filter_var($_POST['message'] ?? '', FILTER_SANITIZE_STRING);
+    <!--<section class="home-slider owl-carousel">
 
-    if ($name && $email && $subject && $message) {
-        $to = "yornsoyun@gmail.com";
-        $headers = "From: $email\r\nReply-To: $email\r\n";
-        $fullMessage = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+      <div class="slider-item" style="background-image: url(images/bg_3.jpg);" data-stellar-background-ratio="0.5">
+      	<div class="overlay"></div>
+        <div class="container">
+          <div class="row slider-text justify-content-center align-items-center">
 
-        if (mail($to, $subject, $fullMessage, $headers)) {
-            echo "<div class='alert alert-success'>Thank you for contacting us. We'll get back to you shortly.</div>";
-        } else {
-            echo "<div class='alert alert-danger'>Oops! Something went wrong. Please try again later.</div>";
-        }
-    } else {
-        echo "<div class='alert alert-warning'>Please fill in all fields correctly.</div>";
-    }
-}
-?>
-
-<section class="ftco-section contact-section">
-  <div class="container mt-5">
-    <div class="row block-9">
-      <div class="col-md-4 contact-info ftco-animate">
-        <!-- Contact info unchanged -->
-      </div>
-      <div class="col-md-1"></div>
-      <div class="col-md-6 ftco-animate">
-        <form action="" method="POST" class="contact-form">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-              </div>
+            <div class="col-md-7 col-sm-12 text-center ftco-animate">
+            	<h1 class="mb-3 mt-5 bread">Contact Us</h1>
+	            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Contact</span></p>
             </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <input type="text" name="subject" class="form-control" placeholder="Subject" required>
-          </div>
-          <div class="form-group">
-            <textarea name="message" cols="30" rows="7" class="form-control" placeholder="Message" required></textarea>
-          </div>
-          <div class="form-group">
-            <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
 
-<div id="map"></div>
+          </div>
+        </div>
+      </div>
+    </section>-->
+
+    <section class="ftco-section contact-section">
+      <div class="container mt-5">
+        <div class="row block-9">
+					<div class="col-md-4 contact-info ftco-animate">
+						<div class="row">
+							<div class="col-md-12 mb-4">
+	              <h2 class="h4">Contact Information</h2>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <p><span>Address:</span> 168st Phnom Penh Tmey Sen Sok Phnom Penh</p>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <p><span>Phone:</span> <a href="tel:0 966 685 018">+855 966 685 018</a></p>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <p><span>Email:</span> <a href="mailto:yornsoyun@gmail.com">yornsoyun@gmail.com</a></p>
+	            </div>
+	            <div class="col-md-12 mb-3">
+	              <p><span>Website:</span> <a href="https://maisreyneang.com/sreyneang/anxiety-coffee/">anxiety-coffee</a></p>
+	            </div>
+						</div>
+					</div>
+					<div class="col-md-1"></div>
+          <div class="col-md-6 ftco-animate">
+            <form action="#" class="contact-form">
+            	<div class="row">
+            		<div class="col-md-6">
+	                <div class="form-group">
+	                  <input type="text" class="form-control" placeholder="Your Name">
+	                </div>
+                </div>
+                <div class="col-md-6">
+	                <div class="form-group">
+	                  <input type="text" class="form-control" placeholder="Your Email">
+	                </div>
+	                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Subject">
+              </div>
+              <div class="form-group">
+                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="map"></div>
 
 <?php require "includes/footer.php"; ?>
