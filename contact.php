@@ -36,7 +36,7 @@
 	              <p><span>Email:</span> <a href="mailto:yornsoyun@gmail.com">yornsoyun@gmail.com</a></p>
 	            </div>
 	            <div class="col-md-12 mb-3">
-	              <p><span>Website:</span> <a href="https://maisreyneang.com/sreyneang/anxiety-coffee/">https://maisreyneang.com/sreyneang/anxiety-coffee/</a></p>
+	              <p><span>Website:</span> <a href="https://maisreyneang.com/sreyneang/anxiety-coffee/">anxiety-coffee</a></p>
 	            </div>
 						</div>
 					</div>
