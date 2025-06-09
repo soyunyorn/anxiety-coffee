@@ -1,93 +1,109 @@
 <?php
-ob_start();
-require "../includes/header.php";
-require "../config/config.php";
+session_start();
+require "../config/config.php"; // $conn (your PDO)
+require "../vendor/autoload.php"; // QR code library
 
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+use chillerlan\QRCode\Output\QROutputInterface;
+use chillerlan\QRCode\Output\QRGdImagePNG;
+
+// If already logged in, redirect
 if (isset($_SESSION['username'])) {
   header("Location: /sreyneang/anxiety-coffee/");
   exit;
 }
 
-if (isset($_POST['submit'])) {
-  if (empty($_POST['email']) || empty($_POST['password'])) {
-    echo "<script>alert('One or more inputs are empty');</script>";
+// Handle QR token verification (GET)
+if (isset($_GET['token'])) {
+  $token = $_GET['token'];
+
+  $stmt = $conn->prepare("SELECT user_id FROM qr_sessions WHERE token = ? AND expires_at > NOW()");
+  $stmt->execute([$token]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($row && isset($row['user_id'])) {
+    $user_id = $row['user_id'];
+
+    // Fetch full user info
+    $stmt = $conn->prepare("SELECT username, email FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Set session
+    $_SESSION['user_id'] = $user_id;
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['email'] = $user['email'];
+
+    // Clean up token
+    $conn->prepare("DELETE FROM qr_sessions WHERE token = ?")->execute([$token]);
+
+    // Redirect to homepage
+    header("Location: /sreyneang/anxiety-coffee/");
+    exit;
   } else {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    echo "❌ Invalid or expired token.";
+    exit;
+  }
+}
 
-    $login = $conn->prepare("SELECT * FROM users WHERE email = :email");
-    $login->execute([':email' => $email]);
-    $fetch = $login->fetch(PDO::FETCH_ASSOC);
+// Handle form POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $email = $_POST['email'] ?? '';
+  $pass  = $_POST['password'] ?? '';
 
-    if ($login->rowCount() > 0) {
-      if ($fetch['is_verified'] == 0) {
-        echo "<script>alert('Please verify your email first before logging in.');</script>";
-      } else if (password_verify($password, $fetch['password'])) {
-        $_SESSION['username'] = $fetch['username'];
-        $_SESSION['email'] = $fetch['email'];
-        $_SESSION['user_id'] = $fetch['id'];
+  $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+  $stmt->execute([$email]);
+  $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // 🔁 Redirect to homepage
-        header("Location: /sreyneang/anxiety-coffee/");
-        exit;
-      } else {
-        echo "<script>alert('Email or password is wrong');</script>";
-      }
+  if ($user && password_verify($pass, $user['password'])) {
+    if ($user['is_verified'] == 0) {
+      echo "<script>alert('Please verify your email before logging in.');</script>";
     } else {
-      echo "<script>alert('Email or password is wrong');</script>";
+      $token = bin2hex(random_bytes(16));
+      $expiresAt = date('Y-m-d H:i:s', time() + 300); // 5 min
+
+      $conn->prepare("INSERT INTO qr_sessions (user_id, token, expires_at) VALUES (?, ?, ?)")
+           ->execute([$user['id'], $token, $expiresAt]);
+
+      // Generate QR URL
+      $url = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://')
+           . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']
+           . "?token={$token}";
+
+      $options = new QROptions([
+        'outputType' => QROutputInterface::GDIMAGE_PNG,
+        'outputBase64' => false,
+      ]);
+
+      header('Content-Type: image/png');
+      echo (new QRCode($options))->render($url);
+      exit;
     }
+  } else {
+    echo "<script>alert('Email or password is wrong');</script>";
   }
 }
 ?>
 
-
-<section class="ftco-section">
+<!-- HTML form shown if no token -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Login</title>
+  <link rel="stylesheet" href="/sreyneang/anxiety-coffee/assets/css/style.css"> <!-- Optional -->
+</head>
+<body>
   <div class="container">
-    <div class="row">
-      <div class="col-md-12 ftco-animate">
-        <form action="login.php" method="POST" class="billing-form ftco-bg-dark p-3 p-md-5">
-          <h3 class="mb-4 billing-heading">Login</h3>
-          <div class="row align-items-end">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="Email">Email</label>
-                <input name="email" type="text" class="form-control" placeholder="Email" required>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="Password">Password</label>
-                <input id="password" name="password" type="password" class="form-control" placeholder="Password" required>
-                <div class="mt-2">
-                  <input type="checkbox" id="showPassword">
-                  <label for="showPassword" style="color: #fff;">Show Password</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <a href="forgot-password.php" style="color: #fff; display: block; margin-bottom: 15px;">Forgot Password?</a>
-            </div>
-
-            <div class="col-md-12">
-              <div class="form-group mt-4">
-                <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Login</button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+    <h2>Login with QR Code</h2>
+    <form method="POST">
+      <input name="email" type="email" placeholder="Email" required><br>
+      <input name="password" type="password" placeholder="Password" required><br>
+      <button type="submit">Generate QR Code</button>
+    </form>
+    <br>
+    <a href="login.php">← Back to normal login</a>
   </div>
-</section>
-
-<!-- Show/hide password script -->
-<script>
-  document.getElementById('showPassword').addEventListener('change', function () {
-    const pw = document.getElementById('password');
-    pw.type = this.checked ? 'text' : 'password';
-  });
-</script>
-
-<?php require "../includes/footer.php"; ?>
+</body>
+</html>
