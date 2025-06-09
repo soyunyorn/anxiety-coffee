@@ -5,7 +5,7 @@ require "../../config/config.php";
 session_start();
 
 if (isset($_SESSION['admin_name'])) {
-    header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/admins/admins.php");
+    header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
     exit;
 }
 
@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['admin_id'] = $fetch['id'];
 
                 // ✅ Redirect to admin dashboard
-                header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/admins/admins.php");
+                header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
                 exit;
             } else {
                 echo "<script>alert('Email or password is incorrect');</script>";
