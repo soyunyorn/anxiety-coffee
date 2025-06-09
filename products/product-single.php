@@ -123,13 +123,13 @@
 
     <div class="row mt-4">
         <div class="col-md-6">
-            <!-- You can add size options here if needed -->
+            <!-- If you want, add size selector here -->
         </div>
     </div>
 
     <div class="input-group col-md-6 d-flex mb-3">
         <span class="input-group-btn mr-2">
-            <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+            <button type="button" class="quantity-left-minus btn btn-outline-secondary" data-type="minus" data-field="">
                 <i class="icon-minus"></i>
             </button>
         </span>
@@ -137,29 +137,30 @@
         <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
 
         <span class="input-group-btn ml-2">
-            <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+            <button type="button" class="quantity-right-plus btn btn-outline-secondary" data-type="plus" data-field="">
                 <i class="icon-plus"></i>
             </button>
         </span>
     </div>
 
-    <input name="name" value="<?php echo $singelProduct->name; ?>" type="hidden">
-    <input name="image" value="<?php echo $singelProduct->image; ?>" type="hidden">
-    <input name="price" value="<?php echo $singelProduct->price; ?>" type="hidden">
-    <input name="pro_id" value="<?php echo $singelProduct->id; ?>" type="hidden">
-    <input name="description" value="<?php echo $singelProduct->description; ?>" type="hidden">
+    <input name="name" value="<?php echo htmlspecialchars($singelProduct->name); ?>" type="hidden">
+    <input name="image" value="<?php echo htmlspecialchars($singelProduct->image); ?>" type="hidden">
+    <input name="price" value="<?php echo htmlspecialchars($singelProduct->price); ?>" type="hidden">
+    <input name="pro_id" value="<?php echo htmlspecialchars($singelProduct->id); ?>" type="hidden">
+    <input name="description" value="<?php echo htmlspecialchars($singelProduct->description); ?>" type="hidden">
 
     <?php if(isset($_SESSION['user_id'])) : ?>
         <?php if($rowCount > 0) : ?>
-            <button name="submit" type="submit" class="btn btn-primary py-3 px-5 mt-3" disabled>Added to Cart</button>
+            <button name="submit" type="submit" class="btn btn-success btn-block" disabled>Added to Cart</button>
         <?php else : ?>    
-            <button name="submit" type="submit" class="btn btn-primary py-3 px-5 mt-3">Add to Cart</button>
+            <button name="submit" type="submit" class="btn btn-primary btn-block">Add to Cart</button>
         <?php endif; ?>    
     <?php else : ?>    
-        <p class="mt-3">Login to add product to cart</p>
+        <p class="text-danger">Please login to add product to cart</p>
     <?php endif; ?>  
 
 </form>
+
 
     			</div>
     		</div>
