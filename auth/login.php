@@ -68,6 +68,7 @@ if (isset($_POST['submit'])) {
 
             <div class="col-md-12">
               <a href="forgot-password.php" style="color: #fff; display: block; margin-bottom: 15px;">Forgot Password?</a>
+              <a href="../admin-panel/admins/login-admins.php" style="color: #fff; display: block; margin-bottom: 15px;">Login to Admin Panel</a>
             </div>
 
             <div class="col-md-12">
