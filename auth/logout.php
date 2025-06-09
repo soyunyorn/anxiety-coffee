@@ -4,4 +4,4 @@
     session_start();
     session_unset();
     session_destroy();
-    header("location: http://localhost/anxiety-coffee");
+    header("https://maisreyneang.com/sreyneang/anxiety-coffee/");
