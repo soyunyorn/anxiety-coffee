@@ -128,9 +128,9 @@
 					<div class="mt-4">
 						<?php if(isset($_SESSION['user_id'])) : ?>
                         <?php if($rowCount > 0) : ?>
-                        <button name="submit" type="submit" class="btn btn-primary btn-outline-primary" disabled>Added to Cart</button>
+                        <button  style="margin-top: -335px; margin-left: 632px; height: 65px;" name="submit" type="submit" class="btn btn-primary py-3 px-5" disabled>Added to Cart</button>
                         <?php else : ?>  
-                        <button name="submit" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
+                        <button  style="display: inline-block; position: relative; z-index: 1; padding: 2em; margin: -2em; margin-top: -335px; margin-left: 632px; height: 65px;" name="submit" type="submit" class="btn btn-primary py-3 px-5">Add to Cart</button>
                       <?php endif; ?>  
 						<?php else : ?>
 					  
@@ -169,7 +169,7 @@
 		</div>
 	</div>
 </section>
-<style>
+<!--<style>
 /* Match your site's button hover color */
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
@@ -186,7 +186,7 @@
   border-color: #ffc107 !important;
   opacity: 1;
 }
-</style>
+</style>-->
 
 
 <?php require "../includes/footer.php"; ?>
