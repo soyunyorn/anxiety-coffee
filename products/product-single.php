@@ -127,14 +127,15 @@
 
 					<div class="mt-4">
 						<?php if(isset($_SESSION['user_id'])) : ?>
-							<?php if($rowCount > 0) : ?>
-								<button name="submit" type="submit" class="btn btn-primary btn-outline-primary" disabled>Added to Cart</button>
-							<?php else : ?>	
-								<button name="submit" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
-							<?php endif; ?>	
-						<?php else : ?>	
-							<p>Please login to add product to cart</p>
-						<?php endif; ?>	
+                        <?php if($rowCount > 0) : ?>
+                        <button name="submit" type="submit" class="btn btn-primary btn-outline-primary" disabled>Added to Cart</button>
+                        <?php else : ?>  
+                        <button name="submit" type="submit" class="btn btn-primary btn-outline-primary">Add to Cart</button>
+                      <?php endif; ?>  
+						<?php else : ?>
+					  
+                       <p>Login to add product to cart</p>
+                        <?php endif; ?>
 					</div>
 				</form>
 			</div>
