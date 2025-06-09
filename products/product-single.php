@@ -174,18 +174,17 @@
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
   color: #fff !important;
-  background-color: #6f4e37 !important; /* replace with your actual color */
-  border-color: #6f4e37 !important;
+  background-color: #ffc107 !important; /* replace with your actual color */
+  border-color: #ffc107 !important;
 }
 
 /* Optional: keep disabled buttons in the same style */
 .btn-outline-primary:disabled,
 .btn-outline-primary:disabled:hover {
   color: #fff !important;
-  background-color: #6f4e37 !important;
-  border-color: #6f4e37 !important;
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
   opacity: 1;
-  cursor: not-allowed;
 }
 </style>
 
