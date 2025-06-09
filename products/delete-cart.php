@@ -1,19 +1,26 @@
-<?php require "../includes/header.php"; ?>
-<?php require "../config/config.php"; ?>
-<?php 
+<?php
 
+require "../includes/header.php";
+require "../config/config.php";
 
-    if(!isset($_SERVER['HTTP_REFERER'])){
-        // redirect them to your desired location
-        header('location: http://localhost/anxiety-coffee');
-        exit;
-    }
+// Prevent direct access
+if (!isset($_SERVER['HTTP_REFERER'])) {
+    header('location: http://localhost/anxiety-coffee');
+    exit;
+}
 
-    if(!isset($_SESSION['user_id'])) {
-        header("location: ".APPURL."");
-    }
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("location: " . APPURL);
+    exit;
+}
 
-    $deleteAll = $conn->query("DELETE FROM cart WHERE user_id='$_SESSION[user_id]'");
-    $deleteAll->execute();
+// Delete all cart items for the user
+$deleteAll = $conn->prepare("DELETE FROM cart WHERE user_id = :user_id");
+$deleteAll->execute([
+    ':user_id' => $_SESSION['user_id']
+]);
 
-    header("location: cart.php");
+// Redirect to cart page
+header("location: cart.php");
+exit;
