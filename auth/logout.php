@@ -2,5 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("location: https://anxiety-coffee.com");
+header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/");
 exit;
+?>
