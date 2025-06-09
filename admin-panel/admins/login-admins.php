@@ -5,7 +5,7 @@ require "../../config/config.php";
 session_start();
 
 if (isset($_SESSION['admin_name'])) {
-    header("Location: " . ADMINURL . "/index.php");
+    header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
     exit;
 }
 
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Prepare statement to prevent SQL injection
+        // Secure query using prepared statement
         $login = $conn->prepare("SELECT * FROM admins WHERE email = :email");
         $login->bindParam(':email', $email);
         $login->execute();
@@ -32,8 +32,8 @@ if (isset($_POST['submit'])) {
                 $_SESSION['email'] = $fetch['email'];
                 $_SESSION['admin_id'] = $fetch['id'];
 
-                // ✅ Redirect to main admin index page
-                header("Location: " . ADMINURL . "/index.php");
+                // ✅ Redirect to live admin panel
+                header("Location: https://maisreyneang.com/sreyneang/anxiety-coffee/admin-panel/");
                 exit;
             } else {
                 echo "<script>alert('Email or password is wrong');</script>";
@@ -53,12 +53,12 @@ if (isset($_POST['submit'])) {
                 <form method="POST" action="login-admins.php" class="p-auto">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required />
+                        <input type="email" name="email" class="form-control" placeholder="Email" required />
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required />
+                        <input type="password" name="password" class="form-control" placeholder="Password" required />
                     </div>
 
                     <!-- Submit button -->
