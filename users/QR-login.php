@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_GET['token'])) {
     $stmt->execute([$token]);
     $row = $stmt->fetch();
 
-    if ($row) {
+    if ($row && isset($row['user_id'])) {
         $_SESSION['user_id'] = $row['user_id'];
         echo "✅ Login successful!";
 
@@ -69,4 +69,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_GET['token'])) {
       <input name="password" type="password" placeholder="Password" required><br>
       <button type="submit">Login & Generate QR</button>
     </form>';
+}
+
+// Example helper function
+function getPdo() {
+    $host = 'localhost';
+    $db   = 'your_database';
+    $user = 'your_username';
+    $pass = 'your_password';
+    $charset = 'utf8mb4';
+
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ];
+    try {
+        return new PDO($dsn, $user, $pass, $options);
+    } catch (\PDOException $e) {
+        throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    }
 }
