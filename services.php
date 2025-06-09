@@ -28,7 +28,7 @@
               </div>
               <div class="media-body">
                 <h3 class="heading">Easy to Order</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>We’ve made ordering as smooth as your first sip. No complicated steps, no overwhelming choices — just a quick, calming way to get the coffee you love, delivered right when you need it.</p>
               </div>
             </div>      
           </div>
@@ -39,7 +39,7 @@
               </div>
               <div class="media-body">
                 <h3 class="heading">Fastest Delivery</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>Your coffee, on your terms — fast, fresh, and right when you need it. Because anxiety doesn’t wait, and neither should you.</p>
               </div>
             </div>      
           </div>
@@ -49,7 +49,8 @@
               	<span class="flaticon-coffee-bean"></span></div>
               <div class="media-body">
                 <h3 class="heading">Quality Coffee</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                <p>We believe great coffee shouldn't just wake you up — it should ease you in. That’s why we source premium beans, roast them with precision,
+                  and brew every cup to bring comfort, not chaos. No bitter aftertaste, no caffeine jitters — just a smooth, grounded experience that helps you face the day, one peaceful sip at a time.</p>
               </div>
             </div>    
           </div>

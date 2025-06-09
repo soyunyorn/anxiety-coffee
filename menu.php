@@ -159,7 +159,7 @@
           <div class="col-md-7 heading-section text-center ftco-animate">
           	<span class="subheading">Discover</span>
             <h2 class="mb-4">Our Products</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            <p>Anxiety-Coffee is more than a name — it’s a promise. Our collection features blends that are bold, smooth, and carefully balanced to help ease your day, one cup at a time.</p>
           </div>
         </div>
     		<div class="row d-md-flex">
